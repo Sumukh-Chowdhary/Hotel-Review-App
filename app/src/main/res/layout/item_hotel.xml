@@ -6,16 +6,6 @@
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <!-- Hotel ID -->
-    <TextView
-        android:id="@+id/hotelId"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="ID"
-        android:textStyle="bold"
-        android:padding="4dp" />
-
     <!-- Hotel Name -->
     <TextView
         android:id="@+id/hotelName"
@@ -26,14 +16,20 @@
         android:textStyle="bold"
         android:padding="4dp" />
 
-    <!-- Hotel Rating -->
+    <!-- Hotel City -->
     <TextView
-        android:id="@+id/hotelRating"
+        android:id="@+id/hotelCity"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:text="Rating"
-        android:gravity="right"
-        android:textStyle="italic"
+        android:text="Hotel City"
+        android:padding="4dp" />
+
+    <!-- Ratings Button -->
+    <Button
+        android:id="@+id/viewRatingsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ratings"
         android:padding="4dp" />
 </LinearLayout>

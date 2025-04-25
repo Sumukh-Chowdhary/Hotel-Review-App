@@ -47,12 +47,13 @@ public class Hotels extends AppCompatActivity {
         Cursor cursor = db.rawQuery("SELECT * FROM " + Database.TABLE_HOTEL, null);
 
         while (cursor.moveToNext()) {
-            hotelList.add(new Hotel(
-                    cursor.getString(cursor.getColumnIndex(Database.COLUMN_HOTEL_ID)),
-                    cursor.getString(cursor.getColumnIndex(Database.COLUMN_HOTEL_NAME)),
-                    cursor.getFloat(cursor.getColumnIndex(Database.COLUMN_RATING))
-            ));
+            String hotelId = cursor.getString(cursor.getColumnIndex(Database.COLUMN_HOTEL_ID));
+            String hotelName = cursor.getString(cursor.getColumnIndex(Database.COLUMN_HOTEL_NAME));
+            String hotelCity = cursor.getString(cursor.getColumnIndex(Database.COLUMN_HOTEL_CITY));
+            float hotelRating = cursor.getFloat(cursor.getColumnIndex(Database.COLUMN_RATING));
+            hotelList.add(new Hotel(hotelId, hotelName, hotelCity, hotelRating));
         }
+        cursor.close();
         cursor.close();
         HotelAdapter adapter = new HotelAdapter(hotelList);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

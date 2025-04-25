@@ -1,8 +1,11 @@
 package com.example.hotelreviewsystem;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -10,25 +13,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHolder> {
+public class HoteluAdapter extends RecyclerView.Adapter<HoteluAdapter.HotelViewHolder> {
     private final List<Hotel> hotelList;
-    public HotelAdapter(List<Hotel> hotelList) {
+    private final Context context;
+
+    public HoteluAdapter(List<Hotel> hotelList, Context context) {
         this.hotelList = hotelList;
+        this.context = context;
     }
 
     @NonNull
     @Override
     public HotelViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_admin_hotel, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_hotel, parent, false);
         return new HotelViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull HotelViewHolder holder, int position) {
         Hotel hotel = hotelList.get(position);
-        holder.hotelId.setText("ID: " + hotel.getId());
-        holder.hotelName.setText("Name: " + hotel.getName());
-        holder.hotelRating.setText("Rating: " + String.valueOf(hotel.getRating()));
+        holder.hotelName.setText(hotel.getName());
+        holder.hotelCity.setText(hotel.getCity());
     }
 
     @Override
@@ -37,12 +42,14 @@ public class HotelAdapter extends RecyclerView.Adapter<HotelAdapter.HotelViewHol
     }
 
     static class HotelViewHolder extends RecyclerView.ViewHolder {
-        TextView hotelId, hotelName, hotelRating;
+        TextView hotelName, hotelCity;
+        Button viewRatingsButton;
+
         public HotelViewHolder(@NonNull View itemView) {
             super(itemView);
-            hotelId = itemView.findViewById(R.id.hotelId);
             hotelName = itemView.findViewById(R.id.hotelName);
-            hotelRating = itemView.findViewById(R.id.hotelRating);
+            hotelCity = itemView.findViewById(R.id.hotelCity);
+            viewRatingsButton = itemView.findViewById(R.id.viewRatingsButton);
         }
     }
 }

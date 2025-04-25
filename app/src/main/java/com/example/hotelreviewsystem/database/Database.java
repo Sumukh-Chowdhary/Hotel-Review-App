@@ -34,6 +34,17 @@ public class Database extends SQLiteOpenHelper {
             COLUMN_HOTEL_LOCATION + " TEXT, " +
             COLUMN_RATING + " NUMBER DEFAULT 5);";
 
+    public static final String TABLE_RATING = "Ratings";
+    public static final String COLUMN_RATING_ID = "rating_id";
+    public static final String COLUMN_HOTEL = "hotel_id";
+    public static final String COLUMN_RATING_VALUE = "rating";
+
+    private static final String CREATE_TABLE_RATINGS = "CREATE TABLE " + TABLE_RATING + " (" +
+            COLUMN_RATING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COLUMN_HOTEL + " INTEGER NOT NULL, " +
+            COLUMN_RATING_VALUE + " FLOAT NOT NULL, " +
+            "FOREIGN KEY(" + COLUMN_HOTEL + ") REFERENCES " + TABLE_HOTEL + "(" + COLUMN_HOTEL_ID + "));";
+
     public Database(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
@@ -90,31 +101,32 @@ public class Database extends SQLiteOpenHelper {
         long result=db.insert("Hotels",null,contentValues);
         return result!=-1;
     }
-    public static final String TABLE_RATING = "Ratings";
-    public static final String COLUMN_RATING_ID = "rating_id";
-    public static final String COLUMN_HOTEL = "hotel_id";
-    public static final String COLUMN_RATING_VALUE = "rating";
 
-    private static final String CREATE_TABLE_RATINGS = "CREATE TABLE " + TABLE_RATING + " (" +
-            COLUMN_RATING_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-            COLUMN_HOTEL + " INTEGER NOT NULL, " +
-            COLUMN_RATING_VALUE + " FLOAT NOT NULL, " +
-            "FOREIGN KEY(" + COLUMN_HOTEL + ") REFERENCES " + TABLE_HOTEL + "(" + COLUMN_HOTEL_ID + "));";
-
-    public boolean addRating(int hotelId, float ratingValue) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_HOTEL_ID, hotelId);
-        contentValues.put(COLUMN_RATING_VALUE, ratingValue);
-        long result = db.insert(TABLE_RATING, null, contentValues);
-        return result != -1;
+    public Cursor getAllHotels() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_HOTEL;
+        return db.rawQuery(query, null);
     }
 
-    public Cursor getRatingsForHotel(int hotelId) {
+    public float getHotelRating(String hotelId) {
         SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT " + COLUMN_RATING_ID + ", " + COLUMN_RATING_VALUE +
-                " FROM " + TABLE_RATING +
-                " WHERE " + COLUMN_HOTEL_ID + "=?";
-        return db.rawQuery(query, new String[]{String.valueOf(hotelId)});
+        String query = "SELECT " + COLUMN_RATING + " FROM " + TABLE_HOTEL + " WHERE " + COLUMN_HOTEL_ID + "=?";
+        Cursor cursor = db.rawQuery(query, new String[]{hotelId});
+        if (cursor.moveToFirst()) {
+            float rating = cursor.getFloat(0);
+            cursor.close();
+            return rating;
+        } else {
+            cursor.close();
+            return 0;
+        }
+    }
+
+    public boolean updateHotelRating(String hotelId, float newRating) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_RATING, newRating);
+        int rowsUpdated = db.update(TABLE_HOTEL, contentValues, COLUMN_HOTEL_ID + "=?", new String[]{hotelId});
+        return rowsUpdated > 0;
     }
 }

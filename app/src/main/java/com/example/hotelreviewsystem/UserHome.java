@@ -24,13 +24,18 @@ public class UserHome extends AppCompatActivity {
         });
         Button logout=findViewById(R.id.logout_user);
         Button ratings=findViewById(R.id.view_hotels);
+        Button addRating=findViewById(R.id.ratingForm);
 
         logout.setOnClickListener(v->{
             startActivity(new Intent(this, Login.class));
         });
 
         ratings.setOnClickListener(v->{
-            startActivity(new Intent(this,Ratings.class));
+            startActivity(new Intent(this,UserHotels.class));
+        });
+
+        addRating.setOnClickListener(v->{
+            startActivity(new Intent(this,AddRating.class));
         });
     }
 }
