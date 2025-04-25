@@ -78,4 +78,14 @@ public class Database extends SQLiteOpenHelper {
         db.close();
         return userExists;
     }
+
+    public boolean insertHotel(String hotel_name,String city,String location){
+        SQLiteDatabase db=this.getWritableDatabase();
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("Hotel_name",hotel_name);
+        contentValues.put("Hotel_City",city);
+        contentValues.put("Hotel_Location",location);
+        long result=db.insert("Hotels",null,contentValues);
+        return result!=-1;
+    }
 }

@@ -1,6 +1,8 @@
 package com.example.hotelreviewsystem;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,6 +20,15 @@ public class AdminHome extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        Button hotels=findViewById(R.id.hotels);
+        hotels.setOnClickListener(view->{
+            Intent i=new Intent(this,Hotels.class);
+            startActivity(i);
+        });
+        Button logout=findViewById(R.id.logout_admin);
+        logout.setOnClickListener(view->{
+            startActivity(new Intent(this, Login.class));
         });
     }
 }

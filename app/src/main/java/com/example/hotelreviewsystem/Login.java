@@ -35,21 +35,8 @@ public class Login extends AppCompatActivity {
             String username=usernameBar.getText().toString();
             String password=passwordBar.getText().toString();
 
-            if(username.isEmpty() || password.isEmpty()) {
-                Toast.makeText(this, "Both username and password are required", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
             Boolean userExist=db.checkUser(username);
             if(userExist){
-                if(username.equals("hotelAdmin") && password.equals("admin")){
-                    Toast.makeText(this, "Login Successful into Admin DashBoard", Toast.LENGTH_SHORT).show();
-                    Intent adminHome=new Intent(this,AdminHome.class);
-                    startActivity(adminHome);
-                }else{
-                    Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 if(db.loginCheck(username,password)){
                     Toast.makeText(this, "Login successful", Toast.LENGTH_SHORT).show();
                 }else{
@@ -57,6 +44,18 @@ public class Login extends AppCompatActivity {
                 }
             }else{
                 Toast.makeText(this, "User with given username does not exist", Toast.LENGTH_SHORT).show();
+            }
+            if(username.isEmpty() || password.isEmpty()) {
+                Toast.makeText(this, "Both username and password are required", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            if(username.equals("hotelAdmin") && password.equals("admin")){
+                Toast.makeText(this, "Login Successful into Admin DashBoard", Toast.LENGTH_SHORT).show();
+                Intent adminHome=new Intent(this,AdminHome.class);
+                startActivity(adminHome);
+            }else{
+                Toast.makeText(this, "Invalid credentials", Toast.LENGTH_SHORT).show();
+                return;
             }
         });
 
